@@ -1,5 +1,16 @@
 var express = require('express');
+var app = express();
+var port = 5000;
 
-var hi = "hello";
+app.get('/', function(request, response) {
+  response.send('Hello World');
+});
 
-console.log(hi);
+app.get('/books', function(request, response) {
+  response.send('Hello Books');
+});
+
+app.listen(port, function() {
+  console.log('running on port ' + port);
+});
+
