@@ -1,10 +1,23 @@
 var express = require('express');
 var app = express();
 var port = 5000;
+var bookRouter = express.Router();
 
 app.use(express.static('public'));
 app.set('views', './src/views');
 app.set('view engine', 'ejs');
+
+bookRouter.route('/')
+          .get(function(request, response) {
+            response.send('Hello Books');
+          });
+
+bookRouter.route('/single')
+          .get(function(request, response) {
+            response.send('Hello Books Single');
+          });
+
+app.use('/books', bookRouter);
 
 app.get('/', function(request, response) {
   response.render('index', 
@@ -20,10 +33,6 @@ app.get('/', function(request, response) {
                       text: 'Authors'
                     }
                   ]});
-});
-
-app.get('/books', function(request, response) {
-  response.send('Hello Books');
 });
 
 app.listen(port, function() {
