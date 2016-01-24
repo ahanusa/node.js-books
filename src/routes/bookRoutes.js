@@ -28,41 +28,29 @@ var books = [
     },
 ];
 
-bookRouter.route('/')
-          .get(function(request, response) {
-            response.render('books',
-                  {
-                    title: 'Books', 
-                    nav: [
+var router = function(nav) {
+  bookRouter.route('/')
+  .get(function(request, response) {
+    response.render('books',
                     {
-                      link: '/books',
-                      text: 'Books'
-                    },
-                    {
-                      link: '/authors',
-                      text: 'Authors'
-                    }
-                  ],
-                  books: books});
-});
+                      title: 'Books', 
+                      nav: nav,
+                      books: books
+                    });
+  });
 
-bookRouter.route('/:id')
-          .get(function(request, response) {
-            var id = request.params.id;
-            response.render('book',
-                  {
-                    title: 'Books', 
-                    nav: [
+  bookRouter.route('/:id')
+  .get(function(request, response) {
+    var id = request.params.id;
+    response.render('book',
                     {
-                      link: '/books',
-                      text: 'Books'
-                    },
-                    {
-                      link: '/authors',
-                      text: 'Authors'
-                    }
-                  ],
-                  book: books[id]});
-});
+                      title: 'Books', 
+                      nav: nav,
+                      book: books[id]
+                    });
+  });
 
-module.exports = bookRouter;
+  return bookRouter;
+};
+
+module.exports = router;
