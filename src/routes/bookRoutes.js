@@ -1,54 +1,35 @@
 var express = require('express');
 var bookRouter = express.Router();
-
-var books = [
-    {
-      title: 'War and peace',
-      genre: 'Historical Fiction',
-      author: 'Foo Jones',
-      read: false
-    },
-    {
-      title: 'War and peace II',
-      genre: 'Historical Fiction',
-      author: 'Foo Jones',
-      read: false
-    },
-    {
-      title: 'War and peace III',
-      genre: 'Historical Fiction',
-      author: 'Foo Jones',
-      read: false
-    },
-    {
-      title: 'War and peace IV',
-      genre: 'Historical Fiction',
-      author: 'Foo Jones',
-      read: false
-    },
-];
+var mongodb = require('mongodb').MongoClient;
 
 var router = function(nav) {
   bookRouter.route('/')
   .get(function(request, response) {
-    response.render('books',
-                    {
-                      title: 'Books', 
-                      nav: nav,
-                      books: books
-                    });
+     var url = 'mongodb://localhost:27017/libraryApp';
+     mongodb.connect(url, function(error, db) {
+       var collection = db.collection('books');
+       collection.find({}).toArray(function (error, result) {
+          response.render('books',
+                          {
+                            title: 'Books', 
+                            nav: nav,
+                            books: result
+                          });
+          db.close();
+       });
+     });
   });
 
-  bookRouter.route('/:id')
-  .get(function(request, response) {
-    var id = request.params.id;
-    response.render('book',
-                    {
-                      title: 'Books', 
-                      nav: nav,
-                      book: books[id]
-                    });
-  });
+  //bookRouter.route('/:id')
+  //.get(function(request, response) {
+    //var id = request.params.id;
+    //response.render('book',
+                    //{
+                      //title: 'Books', 
+                      //nav: nav,
+                      //book: books[id]
+                    //});
+  //});
 
   return bookRouter;
 };
