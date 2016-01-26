@@ -3,6 +3,11 @@ var bookRouter = express.Router();
 var mongodb = require('mongodb').MongoClient;
 var objectId = require('mongodb').ObjectID;
 
+//MONGO COMMAND LINE
+//mongo libraryApp 
+//show collections
+//db.books.find()
+
 var router = function(nav) {
   bookRouter.route('/')
   .get(function(request, response) {
