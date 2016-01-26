@@ -3,7 +3,6 @@ var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
 var session = require('express-session');
 var app = express();
-var passport = require('./src/config/passport', app);
 var port = 5000;
 var nav = [
   {
@@ -22,10 +21,11 @@ var authRouter = require('./src/routes/authRoutes.js')(nav);
 
 // CONFIGURE MIDDLEWARE
 app.use(express.static('public'));
+app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
-app.use(cookieParser());
 app.use(session({secret: 'library'}));
+require('./src/config/passport')(app);
 
 app.use('/books', bookRouter);
 app.use('/admin', adminRouter);

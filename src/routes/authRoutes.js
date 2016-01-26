@@ -6,7 +6,16 @@ var router = function() {
   authRouter.route('/signup')
             .post(function(request, response) {
               console.log(request.body);
+              request.login(request.body, function() {
+                response.redirect('/auth/profile');
+              });
             });
+
+  authRouter.route('/profile')
+            .get(function(request, response) {
+              response.json(request.user);
+            });
+    
   return authRouter;
 };
 
