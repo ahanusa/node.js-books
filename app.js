@@ -1,4 +1,5 @@
 var express = require('express');
+var bodyParser = require('body-parser');
 var app = express();
 var port = 5000;
 var nav = [
@@ -15,7 +16,10 @@ var nav = [
 var bookRouter = require('./src/routes/bookRoutes.js')(nav);
 var adminRouter = require('./src/routes/adminRoutes.js')(nav);
 
+// CONFIGURE MIDDLEWARE
 app.use(express.static('public'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded());
 app.use('/books', bookRouter);
 app.use('/admin', adminRouter);
 
