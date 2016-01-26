@@ -29,6 +29,12 @@ var router = function() {
             });
 
   authRouter.route('/profile')
+            .all(function(request, response, next) {
+              if (!request.user) {
+                response.redirect('/');
+              }
+              next();
+            })
             .get(function(request, response) {
               response.json(request.user);
             });
