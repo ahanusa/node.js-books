@@ -15,13 +15,16 @@ var nav = [
 
 var bookRouter = require('./src/routes/bookRoutes.js')(nav);
 var adminRouter = require('./src/routes/adminRoutes.js')(nav);
+var authRouter = require('./src/routes/authRoutes.js')(nav);
 
 // CONFIGURE MIDDLEWARE
 app.use(express.static('public'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
+
 app.use('/books', bookRouter);
 app.use('/admin', adminRouter);
+app.use('/auth', authRouter);
 
 app.set('views', './src/views');
 app.set('view engine', 'ejs');
