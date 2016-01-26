@@ -1,5 +1,6 @@
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
+var mongodb = require('mongodb').MongoClient;
 
 module.exports = function() {
   passport.use(new LocalStrategy({
@@ -7,10 +8,15 @@ module.exports = function() {
     passwordField: 'password'
   }, 
   function(username, password, done) {
-    var user = {
-      username: username,
-      password: password
-    };
-    done(null, user);
+    var url = 'mongodb://localhost:27017/libraryApp';
+    mongodb.connect(url, function(err, db) {
+      var collection = db.collection('users');
+      collection.findOne({username: username}, function(error, results) {
+        if (results.password === password)
+          done(null, results);
+        else
+          done(null, false, {message: 'bad password' });
+      });
+    });
   }));
 };
