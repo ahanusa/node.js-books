@@ -12,7 +12,8 @@
   "dependencies": {
     "cookie-parser": "^1.4.1",
     "express": "^4.13.3",
-    "mongodb": "^2.1.4"
+    "mongodb": "^2.1.4",
+    "passport": "^0.3.2"
   },
   "devDependencies": {
     "body-parser": "^1.14.2",
