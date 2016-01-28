@@ -12,11 +12,11 @@ module.exports = function() {
     mongodb.connect(url, function(err, db) {
       var collection = db.collection('users');
       collection.findOne({username: username}, function(error, results) {
-        if (results.password === password)
+        if (results.password === password) {
           done(null, results);
-        else
+        } else {
           done(null, false, {message: 'bad password' });
-      });
+        }});
     });
   }));
 };

@@ -1,57 +1,21 @@
 var express = require('express');
 var bookRouter = express.Router();
-var mongodb = require('mongodb').MongoClient;
-var objectId = require('mongodb').ObjectID;
-
-//MONGO COMMAND LINE
-//mongo libraryApp 
-//show collections
-//db.books.find()
 
 var router = function(nav) {
 
-  bookRouter.use(function(request, response, next) {
-    if (!request.user) {
-      response.redirect('/');
-    }
-    next();
-  });
+  var bookController = require('../controllers/bookController')(null, nav);
+
+  bookRouter.use(bookController.middleware);
 
   bookRouter.route('/')
-  .get(function(request, response) {
-    var url = 'mongodb://localhost:27017/libraryApp';
-      mongodb.connect(url, function(error, db) {
-      var collection = db.collection('books');
-      collection.find({}).toArray(function (error, result) {
-        response.render('books',
-                        {
-                          title: 'Books', 
-                          nav: nav,
-                          books: result
-                        });
-                        db.close();
-      });
-    });
-  });
+            .get(function(request, response) {
+              bookController.getIndex;
+            });
 
   bookRouter.route('/:id')
-  .get(function(request, response) {
-    var id = new objectId(request.params.id);
-    var url = 'mongodb://localhost:27017/libraryApp';
-    mongodb.connect(url, function(error, db) {
-      var collection = db.collection('books');
-      collection.findOne({_id: id}, function(error, result) {
-        console.log("result", result);
-        response.render('book',
-                        {
-                          title: 'Books', 
-                          nav: nav,
-                          book: result
-                        });
-                        db.close();
-      });
-    });
-  });
+            .get(function(request, response) {
+              bookController.getById
+            });
 
   return bookRouter;
 };
