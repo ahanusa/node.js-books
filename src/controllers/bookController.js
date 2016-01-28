@@ -13,7 +13,7 @@ var bookController = function(bookService, nav) {
       response.redirect('/');
     }
     next();
-  }
+  };
 
   var getIndex = function(request, response) {
     var url = 'mongodb://localhost:27017/libraryApp';

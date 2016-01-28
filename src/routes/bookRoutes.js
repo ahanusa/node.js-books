@@ -8,14 +8,10 @@ var router = function(nav) {
   bookRouter.use(bookController.middleware);
 
   bookRouter.route('/')
-            .get(function(request, response) {
-              bookController.getIndex;
-            });
+            .get(bookController.getIndex);
 
   bookRouter.route('/:id')
-            .get(function(request, response) {
-              bookController.getById
-            });
+            .get(bookController.getById);
 
   return bookRouter;
 };
