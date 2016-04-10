@@ -9,9 +9,10 @@ var objectId = require('mongodb').ObjectID;
 var bookController = function(bookService, nav) {
 
   var middleware = function(request, response, next) {
-    if (!request.user) {
-      response.redirect('/');
-    }
+    // AUTHENTICATION
+    //if (!request.user) {
+      //response.redirect('/');
+    //}
     next();
   };
 
@@ -38,12 +39,20 @@ var bookController = function(bookService, nav) {
       var collection = db.collection('books');
       collection.findOne({_id: id}, function(error, result) {
         console.log("result", result);
-        response.render('book',
-                        {
+        // RETURN JSON
+        response.setHeader("Content-Type", "application/json");
+        response.send(JSON.stringify({
                           title: 'Books', 
                           nav: nav,
                           book: result
-                        });
+        }));
+        //RETURN HTML
+        //response.render('book',
+                        //{
+                          //title: 'Books', 
+                          //nav: nav,
+                          //book: result
+                        //});
                         db.close();
       });
     });
